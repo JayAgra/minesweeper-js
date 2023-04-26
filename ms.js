@@ -122,6 +122,15 @@ function processClick(cellID) {
 }
 
 function playGame() {
+    //creating elements
+    for (var i = 0; i < 81; i++) {
+        let gridcell = document.createElement("div");
+        gridcell.setAttribute("id", "c_" + i);
+        gridcell.classList.add("pgrid-c");
+        document.getElementById("ms_grid").appendChild(gridcell);
+    }
+
+    //adding bombs, rendering board
     generateBombs();
     populateBoard();
 
