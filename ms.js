@@ -37,14 +37,24 @@ function populateBoard() {
     }
 }
 
-function returnValueIfNotExists(targetSquareNumber, value) {
-    if (targetSquareNumber <= 0) {
-        return value;
-    } else if (targetSquareNumber > 80) {
-        return value;
-    } else {
-        return board[targetSquareNumber];
-    }
+function confirmSameRow(num1, num2) {
+    return ((num1 - (num1 % 9)) / 9) === num2;
+}
+
+function returnValueIfNotExists(targetSquareNumber, value, intendedRow) {
+  if (targetSquareNumber < 0) {
+    return value;
+  } else if (targetSquareNumber > 80) {
+    return value;
+  } else if (confirmSameRow(targetSquareNumber, intendedRow)) {
+    return board[targetSquareNumber];
+  } else {
+    return value;
+  }
+}
+
+function rowOfNum(num) {
+    return (num - (num % 9)) / 9;
 }
 
 function findNumberOfNbrs(squarenumber) {
@@ -52,34 +62,36 @@ function findNumberOfNbrs(squarenumber) {
 
     var numberOfNbrs = 0;
 
-    if (returnValueIfNotExists(squarenumber - 10, 0) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber - 9, 0) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber - 8, 0) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber - 10, 0, rowOfNum(squarenumber) - 1) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber - 9, 0, rowOfNum(squarenumber) - 1) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber - 8, 0, rowOfNum(squarenumber) - 1) === 9) {numberOfNbrs++}
 
-    if (returnValueIfNotExists(squarenumber - 1, 0) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber + 1, 0) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber - 1, 0, rowOfNum(squarenumber)) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber + 1, 0, rowOfNum(squarenumber)) === 9) {numberOfNbrs++}
 
-    if (returnValueIfNotExists(squarenumber + 8, 0) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber + 9, 0) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber + 10, 0) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber + 8, 0, rowOfNum(squarenumber) + 1) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber + 9, 0, rowOfNum(squarenumber) + 1) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber + 10, 0, rowOfNum(squarenumber) + 1) === 9) {numberOfNbrs++}
 
     return numberOfNbrs;
 }
 
-function exposeTileIfEmpty(targetNumber) {
+function exposeTileIfEmpty(targetNumber, targetRow) {
   if (targetNumber >= 0 && targetNumber < 81) {
-    processClick("c_" + targetNumber);
+    if (confirmSameRow(targetNumber, targetRow)) {
+      processClick("c_" + targetNumber);
+    }
   }
 }
 
 function exposeEmptyArea(squarenumber) {
   if (board[squarenumber] === 0) {
-    exposeTileIfEmpty(squarenumber - 9);
+    exposeTileIfEmpty(squarenumber - 9, rowOfNum(squarenumber) - 1);
 
-    exposeTileIfEmpty(squarenumber - 1);
-    exposeTileIfEmpty(squarenumber + 1);
+    exposeTileIfEmpty(squarenumber - 1, rowOfNum(squarenumber));
+    exposeTileIfEmpty(squarenumber + 1, rowOfNum(squarenumber));
 
-    exposeTileIfEmpty(squarenumber + 9);
+    exposeTileIfEmpty(squarenumber + 9, rowOfNum(squarenumber) + 1);
   }
 }
 
