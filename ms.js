@@ -12,8 +12,15 @@ var board = [
 ];
 
 var boardElements = [];
-
 var enableEvents = true;
+var tileReveals = 0;
+var gameStartedTime = Math.floor(Date.now() / 1000);
+
+function updateTimer() {
+  document.getElementById("time").innerHTML = String(Math.floor(Date.now() / 1000) - gameStartedTime).padStart(3, '0');
+}
+
+const timerInterval = window.setInterval(updateTimer, 1000);
 
 function generateBombs() {
     const numberOfBombs = Math.floor(Math.random() * 9 + 9); //9 to 17 inclusive
@@ -105,6 +112,7 @@ var numberColorClasses = ["clear", "one", "two", "three", "four", "five", "six",
 
 function processClick(cellID) {
     if (enableEvents) {
+        tileReveals++;
         var cellNumber = Number(cellID.slice(2));
         if (board[cellNumber] === -1) {
             var cellEle = document.getElementById(cellID);
@@ -128,6 +136,9 @@ function processClick(cellID) {
             enableEvents = false;
 
             revealEntireBoard()
+
+            window.clearInterval(timerInterval);
+            throw new Error("game over")
         }
     }
 }
