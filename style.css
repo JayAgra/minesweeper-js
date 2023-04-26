@@ -1,0 +1,74 @@
+html,body {
+    background-color: #000;
+    font-family: "raleway-400", sans-serif;
+    overflow-x: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.scoretime {
+    background-color: #000;
+}
+
+.sevs {
+    font-family: "seven-seg", monospace;
+    font-size: xx-large;
+    color: red;
+    text-shadow: 0 0 0.1em rgba(153, 0, 0, 0.5), 0 0 0.2em rgba(153, 0, 0, 0.5), 0 0 0.3em rgba(255, 0, 0, 0.5), 0 0 0.5em rgba(255, 0, 0, 0.5), 0 0 0.5em rgba(255, 0, 0, 0.5), 0 0 0.55em rgba(255, 0, 0, 0.5), 0 0 0.6em rgba(255, 0, 0, 0.5);
+    background-color: #232323;
+    padding: 0.25em;
+    border: 0.25em #232323 solid;
+    border-radius: 0.25em;
+}
+
+.pgrid {
+    column-gap: 10px;
+    row-gap: 0px;
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    width: 45%
+}
+
+.pgrid-c {
+    aspect-ratio: 1/1;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 2rem;
+    margin: 2px;
+    padding: 2px;
+    text-align: center;
+    width: 100%;
+    background-color: #ddd;
+    color: #a216a2
+}
+
+.pgrid-c-clear {
+    background-color: #888;
+}
+
+@font-face {
+    font-family: 'raleway-300';
+    src: url('fonts/Raleway-300.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'raleway-400';
+    src: url('fonts/Raleway-400.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'seven-seg';
+    src: url('fonts/Seven-Seg.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'JetBrainsMono-400';
+    src: url('fonts/JetBrainsMono-400.ttf') format('truetype');
+}
