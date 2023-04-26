@@ -74,16 +74,12 @@ function exposeTileIfEmpty(targetNumber) {
 
 function exposeEmptyArea(squarenumber) {
   if (board[squarenumber] === 0) {
-    //exposeTileIfEmpty(squarenumber - 10);
     exposeTileIfEmpty(squarenumber - 9);
-    //exposeTileIfEmpty(squarenumber - 8);
 
     exposeTileIfEmpty(squarenumber - 1);
     exposeTileIfEmpty(squarenumber + 1);
 
-    //exposeTileIfEmpty(squarenumber + 8);
     exposeTileIfEmpty(squarenumber + 9);
-    //exposeTileIfEmpty(squarenumber + 10);
   }
 }
 
@@ -92,6 +88,8 @@ function revealEntireBoard() {
     document.getElementById("c_" + i).innerHTML = board[i];
   }
 }
+
+var numberColorClasses = ["clear", "one", "two", "three", "four", "five", "six", "seven", "eight"];
 
 function processClick(cellID) {
     if (enableEvents) {
@@ -109,6 +107,7 @@ function processClick(cellID) {
             }
             
             cellEle.classList.add("clear");
+            cellEle.classList.add(numberColorClasses[nbrscnt]);
         } else if (board[cellNumber] === 9) {
             console.log("boom.");
             var cellEle = document.getElementById(cellID);

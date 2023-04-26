@@ -1,6 +1,6 @@
 html,body {
     background-color: #000;
-    font-family: "raleway-400", sans-serif;
+    font-family: "seven-seg", monospace;
     overflow-x: none;
 }
 
@@ -18,7 +18,7 @@ html,body {
 .sevs {
     font-family: "seven-seg", monospace;
     font-size: xx-large;
-    color: red;
+    color: #000;
     text-shadow: 0 0 0.1em rgba(153, 0, 0, 0.5), 0 0 0.2em rgba(153, 0, 0, 0.5), 0 0 0.3em rgba(255, 0, 0, 0.5), 0 0 0.5em rgba(255, 0, 0, 0.5), 0 0 0.5em rgba(255, 0, 0, 0.5), 0 0 0.55em rgba(255, 0, 0, 0.5), 0 0 0.6em rgba(255, 0, 0, 0.5);
     background-color: #232323;
     padding: 0.25em;
@@ -40,35 +40,54 @@ html,body {
     aspect-ratio: 1/1;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 2rem;
+    font-size: 3.5rem;
+    display: table-cell;
+    vertical-align: middle;
     margin: 2px;
     padding: 2px;
     text-align: center;
     width: 100%;
     background-color: #ddd;
-    color: #a216a2
+    color: #000
 }
 
 .clear {
     background-color: #888;
 }
 
-@font-face {
-    font-family: 'raleway-300';
-    src: url('fonts/Raleway-300.ttf') format('truetype');
+.one {
+    color: blue;
 }
 
-@font-face {
-    font-family: 'raleway-400';
-    src: url('fonts/Raleway-400.ttf') format('truetype');
+.two {
+    color: green;
+}
+
+.three {
+    color: orangered;
+}
+
+.four {
+    color: darkblue;
+}
+
+.five {
+    color: maroon;
+}
+
+.six {
+    color: teal;
+}
+
+.seven {
+    color: black;
+}
+
+.eight {
+    color: darkgray;
 }
 
 @font-face {
     font-family: 'seven-seg';
     src: url('fonts/Seven-Seg.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: 'JetBrainsMono-400';
-    src: url('fonts/JetBrainsMono-400.ttf') format('truetype');
 }
