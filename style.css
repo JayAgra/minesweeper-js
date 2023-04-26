@@ -24,6 +24,7 @@ html,body {
     padding: 0.25em;
     border: 0.25em #232323 solid;
     border-radius: 0.25em;
+    color: red;
 }
 
 .pgrid {
