@@ -1,20 +1,21 @@
 //81-element list for board positions
 var board = [
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1,
-    -1, -1, -1, -1, -1, -1, -1, -1, -1
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1
 ];
 
 var boardElements = [];
 var enableEvents = true;
 var tileReveals = 0;
 var gameStartedTime = Math.floor(Date.now() / 1000);
+var bombsRemaining = 0;
 
 function updateTimer() {
   if (tileReveals === 0) {
@@ -27,8 +28,8 @@ function updateTimer() {
 const timerInterval = window.setInterval(updateTimer, 1000);
 
 function generateBombs() {
-    const numberOfBombs = Math.floor(Math.random() * 9 + 9); //9 to 17 inclusive
-    for (var i = 0; i < numberOfBombs; i++) {
+    bombsRemaining = Math.floor(Math.random() * 9 + 9); //9 to 17 inclusive
+    for (var i = 0; i < bombsRemaining; i++) {
         let randomIndex = Math.floor(Math.random() * 81);
         //use 1 for bomb
         if (board[randomIndex] === 9) {
@@ -97,12 +98,16 @@ function exposeTileIfEmpty(targetNumber, targetRow) {
 
 function exposeEmptyArea(squarenumber) {
   if (board[squarenumber] === 0) {
+    exposeTileIfEmpty(squarenumber - 8, rowOfNum(squarenumber) - 1);
     exposeTileIfEmpty(squarenumber - 9, rowOfNum(squarenumber) - 1);
+    exposeTileIfEmpty(squarenumber - 10, rowOfNum(squarenumber) - 1);
 
     exposeTileIfEmpty(squarenumber - 1, rowOfNum(squarenumber));
     exposeTileIfEmpty(squarenumber + 1, rowOfNum(squarenumber));
 
-    exposeTileIfEmpty(squarenumber + 9, rowOfNum(squarenumber) + 1);
+    exposeTileIfEmpty(squarenumber + 8, rowOfNum(squarenumber) + 1);
+    exposeTileIfEmpty(squarenumber + 9, rowOfNum(squarenumber) - 1);
+    exposeTileIfEmpty(squarenumber + 10, rowOfNum(squarenumber) - 1);
   }
 }
 
@@ -117,6 +122,7 @@ var numberColorClasses = ["clear", "one", "two", "three", "four", "five", "six",
 function processClick(cellID) {
     if (enableEvents) {
         tileReveals++;
+        document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
         var cellNumber = Number(cellID.slice(2));
         if (board[cellNumber] === -1) {
             var cellEle = document.getElementById(cellID);
