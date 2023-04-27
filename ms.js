@@ -17,7 +17,11 @@ var tileReveals = 0;
 var gameStartedTime = Math.floor(Date.now() / 1000);
 
 function updateTimer() {
-  document.getElementById("time").innerHTML = String(Math.floor(Date.now() / 1000) - gameStartedTime).padStart(3, '0');
+  if (tileReveals === 0) {
+    gameStartedTime = Math.floor(Date.now() / 1000);
+  } else {
+    document.getElementById("time").innerHTML = String(Math.floor(Date.now() / 1000) - gameStartedTime).padStart(3, '0');
+  }
 }
 
 const timerInterval = window.setInterval(updateTimer, 1000);
