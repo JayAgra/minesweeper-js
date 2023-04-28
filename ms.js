@@ -106,51 +106,79 @@ function exposeEmptyArea(squarenumber) {
     exposeTileIfEmpty(squarenumber + 1, rowOfNum(squarenumber));
 
     exposeTileIfEmpty(squarenumber + 8, rowOfNum(squarenumber) + 1);
-    exposeTileIfEmpty(squarenumber + 9, rowOfNum(squarenumber) - 1);
-    exposeTileIfEmpty(squarenumber + 10, rowOfNum(squarenumber) - 1);
+    exposeTileIfEmpty(squarenumber + 9, rowOfNum(squarenumber) + 1);
+    exposeTileIfEmpty(squarenumber + 10, rowOfNum(squarenumber) + 1);
   }
 }
 
 function revealEntireBoard() {
   for (var i = 0; i < 81; i++) {
-    document.getElementById("c_" + i).innerHTML = board[i];
+    if (board[i] !== -1 && board[i] !== 0) {
+      if (board[i] === 9) {
+        document.getElementById("c_" + i).classList.add("emojiBox");
+        document.getElementById("c_" + i).innerHTML = "💣";
+      } else {
+        document.getElementById("c_" + i).innerHTML = board[i];
+      }
+    }
   }
 }
 
 var numberColorClasses = ["clear", "one", "two", "three", "four", "five", "six", "seven", "eight"];
 
 function processClick(cellID) {
-    if (enableEvents) {
-        tileReveals++;
-        document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
-        var cellNumber = Number(cellID.slice(2));
-        if (board[cellNumber] === -1) {
-            var cellEle = document.getElementById(cellID);
+  if (enableEvents) {
+    if (document.getElementById(cellID).innerHTML === "🚩") {
+      var confirmation = confirm("Are you sure you would like to select a flagged box?");
+      if (confirmation) {
+        document.getElementById(cellID).classList.remove("emojiBox");
+        document.getElementById(cellID).innerHTML = "";
+        processClick(cellID);
+      }
+    } else {
+      tileReveals++;
+      document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
+      var cellNumber = Number(cellID.slice(2));
+      if (board[cellNumber] === -1) {
+          var cellEle = document.getElementById(cellID);
 
-            let nbrscnt = findNumberOfNbrs(cellNumber);
-            board[cellNumber] = nbrscnt;
+          let nbrscnt = findNumberOfNbrs(cellNumber);
+          board[cellNumber] = nbrscnt;
 
-            if (nbrscnt !== 0) {
-                cellEle.innerHTML = nbrscnt;
-            } else if (nbrscnt === 0) {
-                exposeEmptyArea(cellNumber);
-            }
-            
-            cellEle.classList.add("clear");
-            cellEle.classList.add(numberColorClasses[nbrscnt]);
-        } else if (board[cellNumber] === 9) {
-            console.log("boom.");
-            var cellEle = document.getElementById(cellID);
-            cellEle.style.backgroundColor = "#f00";
+          if (nbrscnt !== 0) {
+              cellEle.innerHTML = nbrscnt;
+          } else if (nbrscnt === 0) {
+              exposeEmptyArea(cellNumber);
+          }
+          
+          cellEle.classList.add("clear");
+          cellEle.classList.add(numberColorClasses[nbrscnt]);
+      } else if (board[cellNumber] === 9) {
+          console.log("boom.");
+          var cellEle = document.getElementById(cellID);
+          cellEle.style.backgroundColor = "#f00";
 
-            enableEvents = false;
+          enableEvents = false;
 
-            revealEntireBoard()
+          revealEntireBoard()
 
-            window.clearInterval(timerInterval);
-            throw new Error("game over")
-        }
+          window.clearInterval(timerInterval);
+          throw new Error("game over")
+      }
     }
+  }
+}
+
+function processRightClick(id, event) {
+  if (enableEvents) {
+    if (document.getElementById(id).innerHTML === "🚩") {
+      document.getElementById(id).classList.remove("emojiBox");
+      document.getElementById(id).innerHTML = "";
+    } else {
+      document.getElementById(id).classList.add("emojiBox");
+      document.getElementById(id).innerHTML = "🚩";
+    }
+  }
 }
 
 function playGame() {
@@ -169,6 +197,7 @@ function playGame() {
     boardElements = Array.from(document.getElementById("ms_grid").children);
 
     for (var i = 0; i < 81; i++) {
-        boardElements[i].addEventListener('click', function(){processClick(this.id)})
+        boardElements[i].addEventListener("click", function(event) { processClick(this.id); })
+        boardElements[i].addEventListener("contextmenu", function(event) { event.preventDefault(); processRightClick(this.id, event); },false);
     }
 }

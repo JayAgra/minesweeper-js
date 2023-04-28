@@ -88,6 +88,10 @@ html,body {
     color: darkgray;
 }
 
+.emojiBox {
+    font-size: 3rem;
+}
+
 @font-face {
     font-family: 'seven-seg';
     src: url('fonts/Seven-Seg.ttf') format('truetype');
