@@ -28,8 +28,7 @@ function updateTimer() {
 const timerInterval = window.setInterval(updateTimer, 1000);
 
 function generateBombs() {
-    bombsRemaining = Math.floor(Math.random() * 9 + 9); //9 to 17 inclusive
-    for (var i = 0; i < bombsRemaining; i++) {
+    for (var i = 0; i < 10; i++) {
         let randomIndex = Math.floor(Math.random() * 81);
         //use 1 for bomb
         if (board[randomIndex] === 9) {
@@ -115,8 +114,7 @@ function revealEntireBoard() {
   for (var i = 0; i < 81; i++) {
     if (board[i] !== -1 && board[i] !== 0) {
       if (board[i] === 9) {
-        document.getElementById("c_" + i).classList.add("emojiBox");
-        document.getElementById("c_" + i).innerHTML = "💣";
+        document.getElementById("c_" + i).innerHTML = "☀";
       } else {
         document.getElementById("c_" + i).innerHTML = board[i];
       }
@@ -128,7 +126,7 @@ var numberColorClasses = ["clear", "one", "two", "three", "four", "five", "six",
 
 function processClick(cellID) {
   if (enableEvents) {
-    if (document.getElementById(cellID).innerHTML === "🚩") {
+    if (document.getElementById(cellID).innerHTML === "⚑") {
       var confirmation = confirm("Are you sure you would like to select a flagged box?");
       if (confirmation) {
         document.getElementById(cellID).classList.remove("emojiBox");
@@ -155,8 +153,9 @@ function processClick(cellID) {
           cellEle.classList.add(numberColorClasses[nbrscnt]);
       } else if (board[cellNumber] === 9) {
           console.log("boom.");
+          document.getElementById("smiley").src = "sad.png";
           var cellEle = document.getElementById(cellID);
-          cellEle.style.backgroundColor = "#f00";
+          cellEle.style.color = "#f00";
 
           enableEvents = false;
 
@@ -171,12 +170,10 @@ function processClick(cellID) {
 
 function processRightClick(id, event) {
   if (enableEvents) {
-    if (document.getElementById(id).innerHTML === "🚩") {
-      document.getElementById(id).classList.remove("emojiBox");
+    if (document.getElementById(id).innerHTML === "⚑") {
       document.getElementById(id).innerHTML = "";
     } else {
-      document.getElementById(id).classList.add("emojiBox");
-      document.getElementById(id).innerHTML = "🚩";
+      document.getElementById(id).innerHTML = "⚑";
     }
   }
 }
@@ -200,4 +197,8 @@ function playGame() {
         boardElements[i].addEventListener("click", function(event) { processClick(this.id); })
         boardElements[i].addEventListener("contextmenu", function(event) { event.preventDefault(); processRightClick(this.id, event); },false);
     }
+}
+
+function resetGame() {
+  window.location.reload();
 }
