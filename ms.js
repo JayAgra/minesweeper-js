@@ -11,6 +11,8 @@ var board = [
   -1, -1, -1, -1, -1, -1, -1, -1, -1
 ];
 
+const waitMs = (ms) => new Promise((res) => setTimeout(res, ms));
+
 var boardElements = [];
 var enableEvents = true;
 var tileReveals = 0;
@@ -203,4 +205,10 @@ function playGame() {
 
 function resetGame() {
   window.location.reload();
+}
+
+function closeButton() {
+  var audio = new Audio('fonts/shutdown.mp3');
+  audio.play();
+  document.getElementById("mswpr-window").style.display = "none";
 }

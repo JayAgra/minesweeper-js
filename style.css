@@ -1,6 +1,6 @@
 html,body {
     background-color: #000;
-    font-family: "seven-seg", monospace;
+    font-family: "Pixelated MS Sans Serif", monospace;
 
     overflow-x: none;
     width: 100vw;
@@ -38,6 +38,7 @@ html,body {
 }
 
 .pgrid {
+    font-family: "Pixelated MS Sans Serif", monospace;
     border-spacing: 0px;
     row-gap: 0px;
     display: grid;
@@ -116,12 +117,20 @@ html,body {
     src: url('fonts/Seven-Seg.ttf') format('truetype');
 }
 
+@font-face { 
+    font-family: "Pixelated MS Sans Serif";
+    src:url('fonts/ms_sans_serif.woff') format("woff");
+    src:url('fonts/ms_sans_serif.woff2') format("woff2");
+    font-weight:400;
+    font-style:normal
+}
+
 @media (min-width: 660px) and (max-width: 750px) {
     .pgrid {
         width: 85%;
     }
     .pgrid-c {
-        font-size: x-large;
+        font-size: xx-large;
     }
 }
 
@@ -130,6 +139,6 @@ html,body {
         width: 85%;
     }
     .pgrid-c {
-        font-size: large;
+        font-size: x-large;
     }
 }

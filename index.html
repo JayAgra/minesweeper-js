@@ -12,13 +12,13 @@
         <noscript>
             seriously, get a new browser. JavaScript is required.
         </noscript>
-        <div class="window" style="width: 70%">
+        <div class="window" id="mswpr-window" style="width: 70%; background-color: black;">
             <div class="title-bar">
                 <div class="title-bar-text">Minesweeper</div>
                 <div class="title-bar-controls">
                 <button aria-label="Minimize"></button>
                 <button aria-label="Maximize"></button>
-                <button aria-label="Close"></button>
+                <button aria-label="Close" onclick="closeButton()"></button>
                 </div>
             </div>
             <div class="window-body">
@@ -29,6 +29,7 @@
                 <br><br>
                 <div class="pgrid" id="ms_grid">
                 </div>
+                <br>
             </div>
         </div>
     </body>
