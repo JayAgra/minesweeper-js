@@ -170,10 +170,12 @@ function processClick(cellID) {
 
 function processRightClick(id, event) {
   if (enableEvents) {
-    if (document.getElementById(id).innerHTML === "⚑") {
-      document.getElementById(id).innerHTML = "";
-    } else {
-      document.getElementById(id).innerHTML = "⚑";
+    if (board[Number(id.slice(2))] === -1 || 9) {
+      if (document.getElementById(id).innerHTML === "⚑") {
+        document.getElementById(id).innerHTML = "";
+      } else {
+        document.getElementById(id).innerHTML = "⚑";
+      }
     }
   }
 }
