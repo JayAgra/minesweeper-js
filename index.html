@@ -5,16 +5,24 @@
         <meta charset="utf8">
         <meta name="theme-color" content="#000000">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="XP.css">
         <script type="text/javascript" src="ms.js"></script>
     </head>
     <body onload="playGame()">
         <noscript>
             seriously, get a new browser. JavaScript is required.
         </noscript>
-        <div class="minesweeperApplicationWindow">
-            <span class="windowControl">will add the windows close buttons here</span>
-            <div class="minesweeperWindowContents">
-                <br><br>
+        <div class="window" style="width: 70%">
+            <div class="title-bar">
+                <div class="title-bar-text">Minesweeper</div>
+                <div class="title-bar-controls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize"></button>
+                <button aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <br>
                 <div class="scoretime">
                     <span class="sevs" id="score">000</span>&emsp;<img id="smiley" src="neutral.png" onmousedown="resetGame()">&emsp;<span class="sevs" id="time">000</span>
                 </div>
