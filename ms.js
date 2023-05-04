@@ -1,14 +1,14 @@
 //81-element list for board positions
 var board = [
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1
 ];
 
 var flagged = [];
@@ -22,11 +22,11 @@ var gameStartedTime = Math.floor(Date.now() / 1000);
 var bombsRemaining = 10;
 
 function updateTimer() {
-  if (tileReveals === 0) {
-    gameStartedTime = Math.floor(Date.now() / 1000);
-  } else {
-    document.getElementById("time").innerHTML = String(Math.floor(Date.now() / 1000) - gameStartedTime).padStart(3, '0');
-  }
+    if (tileReveals === 0) {
+        gameStartedTime = Math.floor(Date.now() / 1000);
+    } else {
+        document.getElementById("time").innerHTML = String(Math.floor(Date.now() / 1000) - gameStartedTime).padStart(3, '0');
+    }
 }
 
 const timerInterval = window.setInterval(updateTimer, 1000);
@@ -41,7 +41,6 @@ function generateBombs() {
             board[randomIndex] = 9;
         }
     }
-    console.log(board);
 }
 
 function populateBoard() {
@@ -57,15 +56,15 @@ function confirmSameRow(num1, num2) {
 }
 
 function returnValueIfNotExists(targetSquareNumber, value, intendedRow) {
-  if (targetSquareNumber < 0) {
-    return value;
-  } else if (targetSquareNumber > 80) {
-    return value;
-  } else if (confirmSameRow(targetSquareNumber, intendedRow)) {
-    return board[targetSquareNumber];
-  } else {
-    return value;
-  }
+    if (targetSquareNumber < 0) {
+        return value;
+    } else if (targetSquareNumber > 80) {
+        return value;
+    } else if (confirmSameRow(targetSquareNumber, intendedRow)) {
+        return board[targetSquareNumber];
+    } else {
+        return value;
+    }
 }
 
 function rowOfNum(num) {
@@ -73,143 +72,161 @@ function rowOfNum(num) {
 }
 
 function findNumberOfNbrs(squarenumber) {
-    if (board[squarenumber] === 9) {return 9;}
+    if (board[squarenumber] === 9) {
+        return 9;
+    }
 
     var numberOfNbrs = 0;
 
-    if (returnValueIfNotExists(squarenumber - 10, 0, rowOfNum(squarenumber) - 1) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber - 9, 0, rowOfNum(squarenumber) - 1) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber - 8, 0, rowOfNum(squarenumber) - 1) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber - 10, 0, rowOfNum(squarenumber) - 1) === 9) {
+        numberOfNbrs++
+    }
+    if (returnValueIfNotExists(squarenumber - 9, 0, rowOfNum(squarenumber) - 1) === 9) {
+        numberOfNbrs++
+    }
+    if (returnValueIfNotExists(squarenumber - 8, 0, rowOfNum(squarenumber) - 1) === 9) {
+        numberOfNbrs++
+    }
 
-    if (returnValueIfNotExists(squarenumber - 1, 0, rowOfNum(squarenumber)) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber + 1, 0, rowOfNum(squarenumber)) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber - 1, 0, rowOfNum(squarenumber)) === 9) {
+        numberOfNbrs++
+    }
+    if (returnValueIfNotExists(squarenumber + 1, 0, rowOfNum(squarenumber)) === 9) {
+        numberOfNbrs++
+    }
 
-    if (returnValueIfNotExists(squarenumber + 8, 0, rowOfNum(squarenumber) + 1) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber + 9, 0, rowOfNum(squarenumber) + 1) === 9) {numberOfNbrs++}
-    if (returnValueIfNotExists(squarenumber + 10, 0, rowOfNum(squarenumber) + 1) === 9) {numberOfNbrs++}
+    if (returnValueIfNotExists(squarenumber + 8, 0, rowOfNum(squarenumber) + 1) === 9) {
+        numberOfNbrs++
+    }
+    if (returnValueIfNotExists(squarenumber + 9, 0, rowOfNum(squarenumber) + 1) === 9) {
+        numberOfNbrs++
+    }
+    if (returnValueIfNotExists(squarenumber + 10, 0, rowOfNum(squarenumber) + 1) === 9) {
+        numberOfNbrs++
+    }
 
     return numberOfNbrs;
 }
 
 function exposeTileIfEmpty(targetNumber, targetRow) {
-  if (targetNumber >= 0 && targetNumber < 81) {
-    if (confirmSameRow(targetNumber, targetRow)) {
-      processClick("c_" + targetNumber);
+    if (targetNumber >= 0 && targetNumber < 81) {
+        if (confirmSameRow(targetNumber, targetRow)) {
+            processClick("c_" + targetNumber);
+        }
     }
-  }
 }
 
 function exposeEmptyArea(squarenumber) {
-  if (board[squarenumber] === 0) {
-    exposeTileIfEmpty(squarenumber - 8, rowOfNum(squarenumber) - 1);
-    exposeTileIfEmpty(squarenumber - 9, rowOfNum(squarenumber) - 1);
-    exposeTileIfEmpty(squarenumber - 10, rowOfNum(squarenumber) - 1);
+    if (board[squarenumber] === 0) {
+        exposeTileIfEmpty(squarenumber - 8, rowOfNum(squarenumber) - 1);
+        exposeTileIfEmpty(squarenumber - 9, rowOfNum(squarenumber) - 1);
+        exposeTileIfEmpty(squarenumber - 10, rowOfNum(squarenumber) - 1);
 
-    exposeTileIfEmpty(squarenumber - 1, rowOfNum(squarenumber));
-    exposeTileIfEmpty(squarenumber + 1, rowOfNum(squarenumber));
+        exposeTileIfEmpty(squarenumber - 1, rowOfNum(squarenumber));
+        exposeTileIfEmpty(squarenumber + 1, rowOfNum(squarenumber));
 
-    exposeTileIfEmpty(squarenumber + 8, rowOfNum(squarenumber) + 1);
-    exposeTileIfEmpty(squarenumber + 9, rowOfNum(squarenumber) + 1);
-    exposeTileIfEmpty(squarenumber + 10, rowOfNum(squarenumber) + 1);
-  }
+        exposeTileIfEmpty(squarenumber + 8, rowOfNum(squarenumber) + 1);
+        exposeTileIfEmpty(squarenumber + 9, rowOfNum(squarenumber) + 1);
+        exposeTileIfEmpty(squarenumber + 10, rowOfNum(squarenumber) + 1);
+    }
 }
 
 function revealEntireBoard() {
-  for (var i = 0; i < 81; i++) {
-    if (board[i] !== -1 && board[i] !== 0) {
-      if (board[i] === 9) {
-        document.getElementById("c_" + i).innerHTML = "☀";
-      } else {
-        document.getElementById("c_" + i).innerHTML = board[i];
-      }
+    for (var i = 0; i < 81; i++) {
+        if (board[i] !== -1 && board[i] !== 0) {
+            if (board[i] === 9) {
+                document.getElementById("c_" + i).innerHTML = "☀";
+            } else {
+                document.getElementById("c_" + i).innerHTML = board[i];
+            }
+        }
     }
-  }
 }
 
 var numberColorClasses = ["clear", "one", "two", "three", "four", "five", "six", "seven", "eight"];
 
 function checkwin() {
-  var count = 0;
-  for (var i = 0; i < flagged.length; i++) {
-    if (board[Number(flagged[i].slice(2))] === 9) {
-      count++
+    var count = 0;
+    for (var i = 0; i < flagged.length; i++) {
+        if (board[Number(flagged[i].slice(2))] === 9) {
+            count++
+        }
     }
-  }
-  return count === 10;
+    return count === 10;
 }
 
 function processClick(cellID) {
-  if (enableEvents) {
-    if (document.getElementById(cellID).innerHTML === "⚑") {
-      var confirmation = confirm("Are you sure you would like to select a flagged box?");
-      if (confirmation) {
-        flagged = flagged.filter(item => item !== cellID)
-        document.getElementById(cellID).innerHTML = "";
-        processClick(cellID);
-      }
-    } else {
-      tileReveals++;
-      document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
-      var cellNumber = Number(cellID.slice(2));
-      if (board[cellNumber] === -1) {
-          var cellEle = document.getElementById(cellID);
+    if (enableEvents) {
+        if (document.getElementById(cellID).innerHTML === "⚑") {
+            var confirmation = confirm("Are you sure you would like to select a flagged box?");
+            if (confirmation) {
+                flagged = flagged.filter(item => item !== cellID)
+                document.getElementById(cellID).innerHTML = "";
+                processClick(cellID);
+            }
+        } else {
+            tileReveals++;
+            document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
+            var cellNumber = Number(cellID.slice(2));
+            if (board[cellNumber] === -1) {
+                var cellEle = document.getElementById(cellID);
 
-          let nbrscnt = findNumberOfNbrs(cellNumber);
-          board[cellNumber] = nbrscnt;
+                let nbrscnt = findNumberOfNbrs(cellNumber);
+                board[cellNumber] = nbrscnt;
 
-          if (nbrscnt !== 0) {
-              cellEle.innerHTML = nbrscnt;
-          } else if (nbrscnt === 0) {
-              exposeEmptyArea(cellNumber);
-          }
-          
-          cellEle.classList.add("clear");
-          cellEle.classList.add(numberColorClasses[nbrscnt]);
-          if (checkwin()) {
-            alert("w");
-            revealEntireBoard();
-            window.clearInterval(timerInterval);
-          }
-      } else if (board[cellNumber] === 9) {
-          console.log("boom.");
-          document.getElementById("smiley").src = "sad.png";
-          var cellEle = document.getElementById(cellID);
-          cellEle.style.color = "#f00";
+                if (nbrscnt !== 0) {
+                    cellEle.innerHTML = nbrscnt;
+                } else if (nbrscnt === 0) {
+                    exposeEmptyArea(cellNumber);
+                }
 
-          enableEvents = false;
+                cellEle.classList.add("clear");
+                cellEle.classList.add(numberColorClasses[nbrscnt]);
+                if (checkwin()) {
+                    alert("w");
+                    revealEntireBoard();
+                    window.clearInterval(timerInterval);
+                }
+            } else if (board[cellNumber] === 9) {
+                console.log("boom.");
+                document.getElementById("smiley").src = "sad.png";
+                var cellEle = document.getElementById(cellID);
+                cellEle.style.color = "#f00";
 
-          revealEntireBoard()
+                enableEvents = false;
 
-          window.clearInterval(timerInterval);
-      }
+                revealEntireBoard()
+
+                window.clearInterval(timerInterval);
+            }
+        }
     }
-  }
 }
 
 function processRightClick(id, event) {
-  if (enableEvents) {
-    if (board[Number(id.slice(2))] === -1 || 9) {
-      if (document.getElementById(id).innerHTML === "⚑") {
-        bombsRemaining++;
-        document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
-        document.getElementById(id).innerHTML = "";
-        flagged = flagged.filter(item => item !== id)
-      } else {
-        if (bombsRemaining > 0) {
-          bombsRemaining--;
-          document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
-          flagged.push(id);
-          document.getElementById(id).innerHTML = "⚑";
+    if (enableEvents) {
+        if (board[Number(id.slice(2))] === -1 || 9) {
+            if (document.getElementById(id).innerHTML === "⚑") {
+                bombsRemaining++;
+                document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
+                document.getElementById(id).innerHTML = "";
+                flagged = flagged.filter(item => item !== id)
+            } else {
+                if (bombsRemaining > 0) {
+                    bombsRemaining--;
+                    document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
+                    flagged.push(id);
+                    document.getElementById(id).innerHTML = "⚑";
+                }
+                if (bombsRemaining === 0 && checkwin()) {
+                    enableEvents = false;
+                    revealEntireBoard();
+                    window.clearInterval(timerInterval);
+                    document.getElementById("smiley").src = "happy.png";
+                }
+            }
         }
-        if (bombsRemaining === 0 && checkwin()) {
-          enableEvents = false; 
-          revealEntireBoard();
-          window.clearInterval(timerInterval);
-          document.getElementById("smiley").src = "happy.png";
-        }
-      }
     }
-  }
 }
 
 function playGame() {
@@ -228,30 +245,35 @@ function playGame() {
     boardElements = Array.from(document.getElementById("ms_grid").children);
 
     for (var i = 0; i < 81; i++) {
-        boardElements[i].addEventListener("click", function(event) { processClick(this.id); })
-        boardElements[i].addEventListener("contextmenu", function(event) { event.preventDefault(); processRightClick(this.id, event); },false);
+        boardElements[i].addEventListener("click", function(event) {
+            processClick(this.id);
+        })
+        boardElements[i].addEventListener("contextmenu", function(event) {
+            event.preventDefault();
+            processRightClick(this.id, event);
+        }, false);
     }
 }
 
 function resetGame() {
-  window.location.reload();
+    window.location.reload();
 }
 
 async function closeButton() {
-  var audio = new Audio("fonts/shutdown.mp3");
-  await audio.play();
-  document.getElementById("mswpr-window").style.display = "none";
+    var audio = new Audio("fonts/shutdown.mp3");
+    await audio.play();
+    document.getElementById("mswpr-window").style.display = "none";
 }
 
 async function minimizeButton() {
-  var audio = new Audio("fonts/error.mp3");
-  await audio.play();
+    var audio = new Audio("fonts/error.mp3");
+    await audio.play();
 }
 
 function toggleFullScreen() {
-  if (!window.screenTop && !window.screenY) {
-    document.exitFullscreen();
-  } else {
-    document.getElementById("mswpr-window").requestFullscreen();
-  }
+    if (!window.screenTop && !window.screenY) {
+        document.exitFullscreen();
+    } else {
+        document.getElementById("mswpr-window").requestFullscreen();
+    }
 }
