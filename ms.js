@@ -11,13 +11,15 @@ var board = [
   -1, -1, -1, -1, -1, -1, -1, -1, -1
 ];
 
+var flagged = [];
+
 const waitMs = (ms) => new Promise((res) => setTimeout(res, ms));
 
 var boardElements = [];
 var enableEvents = true;
 var tileReveals = 0;
 var gameStartedTime = Math.floor(Date.now() / 1000);
-var bombsRemaining = 0;
+var bombsRemaining = 10;
 
 function updateTimer() {
   if (tileReveals === 0) {
@@ -126,12 +128,22 @@ function revealEntireBoard() {
 
 var numberColorClasses = ["clear", "one", "two", "three", "four", "five", "six", "seven", "eight"];
 
+function checkwin() {
+  var count = 0;
+  for (var i = 0; i < flagged.length; i++) {
+    if (board[Number(flagged[i].slice(2))] === 9) {
+      count++
+    }
+  }
+  return count === 10;
+}
+
 function processClick(cellID) {
   if (enableEvents) {
     if (document.getElementById(cellID).innerHTML === "⚑") {
       var confirmation = confirm("Are you sure you would like to select a flagged box?");
       if (confirmation) {
-        document.getElementById(cellID).classList.remove("emojiBox");
+        flagged = flagged.filter(item => item !== cellID)
         document.getElementById(cellID).innerHTML = "";
         processClick(cellID);
       }
@@ -153,6 +165,11 @@ function processClick(cellID) {
           
           cellEle.classList.add("clear");
           cellEle.classList.add(numberColorClasses[nbrscnt]);
+          if (checkwin()) {
+            alert("w");
+            revealEntireBoard();
+            window.clearInterval(timerInterval);
+          }
       } else if (board[cellNumber] === 9) {
           console.log("boom.");
           document.getElementById("smiley").src = "sad.png";
@@ -164,7 +181,6 @@ function processClick(cellID) {
           revealEntireBoard()
 
           window.clearInterval(timerInterval);
-          //throw new Error("game over")
       }
     }
   }
@@ -174,9 +190,23 @@ function processRightClick(id, event) {
   if (enableEvents) {
     if (board[Number(id.slice(2))] === -1 || 9) {
       if (document.getElementById(id).innerHTML === "⚑") {
+        bombsRemaining++;
+        document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
         document.getElementById(id).innerHTML = "";
+        flagged = flagged.filter(item => item !== id)
       } else {
-        document.getElementById(id).innerHTML = "⚑";
+        if (bombsRemaining > 0) {
+          bombsRemaining--;
+          document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
+          flagged.push(id);
+          document.getElementById(id).innerHTML = "⚑";
+        }
+        if (bombsRemaining === 0 && checkwin()) {
+          enableEvents = false; 
+          revealEntireBoard();
+          window.clearInterval(timerInterval);
+          document.getElementById("smiley").src = "happy.png";
+        }
       }
     }
   }
