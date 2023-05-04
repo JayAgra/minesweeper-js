@@ -208,9 +208,14 @@ function resetGame() {
 }
 
 async function closeButton() {
-  var audio = new Audio('fonts/shutdown.mp3');
+  var audio = new Audio("fonts/shutdown.mp3");
   await audio.play();
   document.getElementById("mswpr-window").style.display = "none";
+}
+
+async function minimizeButton() {
+  var audio = new Audio("fonts/error.mp3");
+  await audio.play();
 }
 
 function toggleFullScreen() {
