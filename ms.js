@@ -164,7 +164,7 @@ function processClick(cellID) {
           revealEntireBoard()
 
           window.clearInterval(timerInterval);
-          throw new Error("game over")
+          //throw new Error("game over")
       }
     }
   }
@@ -207,8 +207,16 @@ function resetGame() {
   window.location.reload();
 }
 
-function closeButton() {
+async function closeButton() {
   var audio = new Audio('fonts/shutdown.mp3');
-  audio.play();
+  await audio.play();
   document.getElementById("mswpr-window").style.display = "none";
+}
+
+function toggleFullScreen() {
+  if (!window.screenTop && !window.screenY) {
+    document.exitFullscreen();
+  } else {
+    document.getElementById("mswpr-window").requestFullscreen();
+  }
 }
