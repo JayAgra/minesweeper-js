@@ -43,14 +43,6 @@ function generateBombs() {
     }
 }
 
-function populateBoard() {
-    for (var i = 0; i < 81; i++) {
-        if (board[i] !== -1 && board[i] !== 9) {
-            document.getElementById("c_" + i).innerHTML = board[i];
-        }
-    }
-}
-
 function confirmSameRow(num1, num2) {
     return ((num1 - (num1 % 9)) / 9) === num2;
 }
@@ -111,7 +103,7 @@ function findNumberOfNbrs(squarenumber) {
 function exposeTileIfEmpty(targetNumber, targetRow) {
     if (targetNumber >= 0 && targetNumber < 81) {
         if (confirmSameRow(targetNumber, targetRow)) {
-            processClick("c_" + targetNumber);
+            processClick("c_" + targetNumber, true);
         }
     }
 }
@@ -135,9 +127,11 @@ function revealEntireBoard() {
     for (var i = 0; i < 81; i++) {
         if (board[i] !== -1 && board[i] !== 0) {
             if (board[i] === 9) {
-                document.getElementById("c_" + i).innerHTML = "☀";
+                document.getElementById("c_" + i).src = "assets/14.png";
+            } else if (board[i] === -1 || board[i] === 0) {
+                document.getElementById("c_" + i).src = "assets/08.png";
             } else {
-                document.getElementById("c_" + i).innerHTML = board[i];
+                document.getElementById("c_" + i).src = "assets/" + String(board[i] - 1).padStart(2, '0') + ".png";
             }
         }
     }
@@ -155,15 +149,23 @@ function checkwin() {
     return count === 10;
 }
 
-function processClick(cellID) {
+function processClick(cellID, computerMove) {
     if (enableEvents) {
-        if (document.getElementById(cellID).innerHTML === "⚑") {
+        if (flagged.includes(cellID) && !computerMove) {
             var confirmation = confirm("Are you sure you would like to select a flagged box?");
             if (confirmation) {
+                bombsRemaining--;
+                document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
                 flagged = flagged.filter(item => item !== cellID)
-                document.getElementById(cellID).innerHTML = "";
-                processClick(cellID);
+                document.getElementById(cellID).src = "assets/09.png";
+                processClick(cellID, true);
             }
+        } else if (flagged.includes(cellID) && computerMove) {
+            bombsRemaining++;
+            document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
+            flagged = flagged.filter(item => item !== cellID)
+            document.getElementById(cellID).src = "assets/09.png";
+            processClick(cellID, true);
         } else {
             tileReveals++;
             document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
@@ -175,8 +177,9 @@ function processClick(cellID) {
                 board[cellNumber] = nbrscnt;
 
                 if (nbrscnt !== 0) {
-                    cellEle.innerHTML = nbrscnt;
+                    cellEle.src = "assets/" + String(nbrscnt - 1).padStart(2, '0') + ".png";
                 } else if (nbrscnt === 0) {
+                    cellEle.src = "assets/08.png";
                     exposeEmptyArea(cellNumber);
                 }
 
@@ -189,7 +192,8 @@ function processClick(cellID) {
                 }
             } else if (board[cellNumber] === 9) {
                 console.log("boom.");
-                document.getElementById("smiley").src = "sad.png";
+                document.getElementById("smiley").src = "assets/sad.png";
+                document.getElementById(cellID).src = "assets/15.png";
                 var cellEle = document.getElementById(cellID);
                 cellEle.style.color = "#f00";
 
@@ -198,6 +202,7 @@ function processClick(cellID) {
                 revealEntireBoard()
 
                 window.clearInterval(timerInterval);
+                document.getElementById(cellID).src = "assets/15.png";
             }
         }
     }
@@ -205,24 +210,24 @@ function processClick(cellID) {
 
 function processRightClick(id, event) {
     if (enableEvents) {
-        if (board[Number(id.slice(2))] === -1 || 9) {
-            if (document.getElementById(id).innerHTML === "⚑") {
+        if (board[Number(id.slice(2))] === -1 || board[Number(id.slice(2))] === 9) {
+            if (flagged.includes(id)) {
                 bombsRemaining++;
                 document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
-                document.getElementById(id).innerHTML = "";
-                flagged = flagged.filter(item => item !== id)
+                document.getElementById(id).src = "assets/09.png";
+                flagged = flagged.filter(item => item !== id);
             } else {
                 if (bombsRemaining > 0) {
                     bombsRemaining--;
                     document.getElementById("score").innerHTML = String(bombsRemaining).padStart(3, '0');
+                    document.getElementById(id).src = "assets/10.png";
                     flagged.push(id);
-                    document.getElementById(id).innerHTML = "⚑";
                 }
                 if (bombsRemaining === 0 && checkwin()) {
                     enableEvents = false;
                     revealEntireBoard();
                     window.clearInterval(timerInterval);
-                    document.getElementById("smiley").src = "happy.png";
+                    document.getElementById("smiley").src = "assets/happy.png";
                 }
             }
         }
@@ -232,7 +237,8 @@ function processRightClick(id, event) {
 function playGame() {
     //creating elements
     for (var i = 0; i < 81; i++) {
-        let gridcell = document.createElement("div");
+        let gridcell = document.createElement("img");
+        gridcell.src = "assets/09.png"
         gridcell.setAttribute("id", "c_" + i);
         gridcell.classList.add("pgrid-c");
         document.getElementById("ms_grid").appendChild(gridcell);
@@ -240,13 +246,12 @@ function playGame() {
 
     //adding bombs, rendering board
     generateBombs();
-    populateBoard();
 
     boardElements = Array.from(document.getElementById("ms_grid").children);
 
     for (var i = 0; i < 81; i++) {
         boardElements[i].addEventListener("click", function(event) {
-            processClick(this.id);
+            processClick(this.id, false);
         })
         boardElements[i].addEventListener("contextmenu", function(event) {
             event.preventDefault();
@@ -260,13 +265,13 @@ function resetGame() {
 }
 
 async function closeButton() {
-    var audio = new Audio("fonts/shutdown.mp3");
+    var audio = new Audio("assets/shutdown.mp3");
     await audio.play();
     document.getElementById("mswpr-window").style.display = "none";
 }
 
 async function minimizeButton() {
-    var audio = new Audio("fonts/error.mp3");
+    var audio = new Audio("assets/error.mp3");
     await audio.play();
 }
 

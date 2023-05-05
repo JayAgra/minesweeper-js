@@ -10,6 +10,8 @@ html,body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    image-rendering: pixelated;
 }
 
 .window-body {
@@ -49,15 +51,9 @@ html,body {
 }
 
 .pgrid-c {
-    aspect-ratio: 1/1;
-	margin: 0px;
-	border: 2px solid;
-	border-color: #eeeeee #999999 #999999 #eeeeee;
-	background-color: #cccccc;
-	padding: 0px;
 	vertical-align: middle;
 	text-align: center;
-    font-size: xx-large;
+    width: 100%;
 }
 
 .clear {
