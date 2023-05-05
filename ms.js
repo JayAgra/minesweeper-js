@@ -282,3 +282,7 @@ function toggleFullScreen() {
         document.getElementById("mswpr-window").requestFullscreen();
     }
 }
+
+function openGitHub() {
+    window.open("https://github.com/JayAgra/minesweeper-js", "_blank");
+}

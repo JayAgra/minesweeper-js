@@ -6,7 +6,7 @@
         <meta name="theme-color" content="#000000">
         <link rel="stylesheet" href="style.min.css">
         <link rel="stylesheet" href="XP.css">
-        <script type="text/javascript" src="ms.min.js"></script>
+        <script type="text/javascript" src="ms.js"></script>
     </head>
     <body onload="playGame()">
         <noscript>
@@ -16,6 +16,7 @@
             <div class="title-bar">
                 <div class="title-bar-text">Minesweeper</div>
                 <div class="title-bar-controls">
+                <button aria-label="Help" onclick="openGitHub()"></button>
                 <button aria-label="Minimize" onclick="minimizeButton()"></button>
                 <button aria-label="Maximize" onclick="toggleFullScreen()"></button>
                 <button aria-label="Close" onclick="closeButton()"></button>
