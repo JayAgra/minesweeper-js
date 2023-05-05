@@ -40,7 +40,6 @@ html,body {
 }
 
 .pgrid {
-    font-family: "Pixelated MS Sans Serif", monospace;
     border-spacing: 0px;
     row-gap: 0px;
     display: grid;
@@ -54,48 +53,6 @@ html,body {
 	vertical-align: middle;
 	text-align: center;
     width: 100%;
-}
-
-.clear {
-    background-color: #bbbbbb;
-	border-color: #999999;
-	cursor: default;
-}
-
-.one {
-    color: blue;
-}
-
-.two {
-    color: green;
-}
-
-.three {
-    color: orangered;
-}
-
-.four {
-    color: darkblue;
-}
-
-.five {
-    color: maroon;
-}
-
-.six {
-    color: teal;
-}
-
-.seven {
-    color: black;
-}
-
-.eight {
-    color: darkgray;
-}
-
-.exploded {
-    color: red;
 }
 
 #smiley {
