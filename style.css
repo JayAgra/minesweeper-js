@@ -50,6 +50,7 @@ html,body {
 }
 
 .pgrid-c {
+    cursor: pointer;
 	vertical-align: middle;
 	text-align: center;
     width: 100%;
