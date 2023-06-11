@@ -241,6 +241,7 @@ function playGame() {
         gridcell.src = "assets/09.png"
         gridcell.setAttribute("id", "c_" + i);
         gridcell.classList.add("pgrid-c");
+        gridcell.ondragstart = function() { return false; };
         document.getElementById("ms_grid").appendChild(gridcell);
     }
 
