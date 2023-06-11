@@ -1,0 +1,3 @@
+[submodule "deps/XP.css"]
+	path = deps/XP.css
+	url = https://github.com/botoxparty/XP.css.git
